@@ -3,12 +3,8 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import java.util.concurrent.TimeUnit;
-import java.util.HashMap;
-import java.util.Map;
 
-import static java.lang.Thread.sleep;
-
-public class longtimeJob {
+public class longtimeJob{
     @Test
     public void testLongTimeJob() {
 
@@ -18,30 +14,29 @@ public class longtimeJob {
                 .jsonPath();
 
         String responseToken = responseForToken.get("token");
-        int sec = responseForToken.get("sec");
+        int sec = responseForToken.get("seconds");
 
-        System.out.println(responseToken);
-        System.out.println(sec);
-
-        Response responseForStatus = RestAssured
+            Response responseForStatus = RestAssured
                 .given()
                 .queryParam("token", responseToken)
                 .get("https://playground.learnqa.ru/ajax/api/longtime_job")
                 .andReturn();
 
-        responseForStatus.print();
-        System.out.println(responseToken);
-        TimeUnit.SECONDS.sleep(sec);
-        /*Thread.sleep( sec*1000);*/
+        try {
+            Thread.sleep(sec*1000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
 
-        Response responseForResult = RestAssured
+               JsonPath responseForResult = RestAssured
                 .given()
                 .queryParam("token", responseToken)
                 .get("https://playground.learnqa.ru/ajax/api/longtime_job")
-                .andReturn();
-
-        responseForResult.print();
-
+                .jsonPath();
+        String status = responseForResult.get("status");
+        String result = responseForResult.get("result");
+        System.out.println(status);
+        System.out.println(result);
 
     }
 }
