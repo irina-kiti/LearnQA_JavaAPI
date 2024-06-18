@@ -28,9 +28,12 @@ public class ex9PasswordCheck {
                     .get("https://playground.learnqa.ru/ajax/api/check_auth_cookie")
                     .andReturn();
             String resultOfAuth = responseForAuth.asString();
-            System.out.println(resultOfAuth);
-           if (resultOfAuth == "You are authorized"){break;}
-            System.out.println(pass[i]);
+            String requiredResult = "You are authorized";
+           if (resultOfAuth.equals(requiredResult)){
+               System.out.println(pass[i]);
+               System.out.println(resultOfAuth);
+               break;}
+
         }
 
     }
