@@ -20,9 +20,11 @@ public class ex9PasswordCheck {
                     .post("https://playground.learnqa.ru/ajax/api/get_secret_password_homework")
                     .andReturn();
             String auth_cookie = responseForCookie.getCookie("auth_cookie");
+            Map<String, String> cookies = new HashMap<>();
+            cookies.put("auth_cookie", auth_cookie);
             Response responseForAuth = RestAssured
                     .given()
-                    .queryParam("auth_cookie", auth_cookie)
+                    .cookies(cookies)
                     .get("https://playground.learnqa.ru/ajax/api/check_auth_cookie")
                     .andReturn();
             String resultOfAuth = responseForAuth.asString();
