@@ -72,7 +72,7 @@ public class UserRegisterTest extends BaseTestCase {
     @DisplayName("Negative create user")
 
 
-    public void testCreateUserWhithShortName() {
+    public void testCreateUserWithShortName() {
         Map<String, String> userData = new HashMap<>();
         userData.put("email", DataGenerator.getRandomEmail());
         userData.put("password", "123456");

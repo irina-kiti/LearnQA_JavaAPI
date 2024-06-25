@@ -49,12 +49,67 @@ public class ApiCoreRequests {
                 .post(url)
                 .andReturn();
     }
+
     @Step("Make a POST-request for creating user")
-    public Response makePostRequestCreateUser(String url, Map<String, String> userData){
+    public Response makePostRequestCreateUser(String url, Map<String, String> userData) {
         return given()
                 .filter(new AllureRestAssured())
                 .body(userData)
                 .post(url)
                 .andReturn();
+    }
+
+    @Step("Make a PUT-request to edit non auth user")
+    public Response makePutRequestEditNoAuthUser(String url, Map<String, String> editData, String wrongToken, String wrongCookie) {
+        return given()
+                .filter(new AllureRestAssured())
+                .body(editData)
+                .header(new Header("x-csrf-token", wrongToken))
+                .cookie("auth_id", wrongCookie)
+                .put(url)
+                .andReturn();
+    }
+
+    @Step("Make a PUT-request to edit user")
+    public Response makePutRequestEditUser(String url, Map<String, String> editData, String token, String cookie) {
+        return given()
+                .filter(new AllureRestAssured())
+                .body(editData)
+                .header(new Header("x-csrf-token", token))
+                .cookie("auth_id", cookie)
+                .put(url)
+                .andReturn();
+
+    }
+    @Step("Make a PUT-request to edit user with invalid email")
+    public Response makePutRequestEditInvalidEmail(String url, Map<String, String> editData, String token1, String cookie1) {
+        return given()
+                .filter(new AllureRestAssured())
+                .body(editData)
+                .header(new Header("x-csrf-token", token1))
+                .cookie("auth_id", cookie1)
+                .put(url)
+                .andReturn();
+
+    }
+    @Step("Make a GET-request for invalid email")
+    public Response makeGetRequestInvalidEmail(String url, String token1, String cookie1) {
+        return given()
+                .filter(new AllureRestAssured())
+                .header(new Header("x-csrf-token", token1))
+                .cookie("auth_id", cookie1)
+                .get(url)
+                .andReturn();
+
+    }
+    @Step("Make a GET-request for invalid firstName")
+    public Response makeGetRequestInvalidFirstName(String url, String token2, String cookie2) {
+        return given()
+                .filter(new AllureRestAssured())
+                .header(new Header("x-csrf-token", token2))
+                .cookie("auth_id", cookie2)
+                .get(url)
+                .andReturn();
+
     }
 }
