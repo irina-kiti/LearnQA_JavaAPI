@@ -112,4 +112,51 @@ public class ApiCoreRequests {
                 .andReturn();
 
     }
+    @Step("Make a DELETE-request for authorized user")
+    public Response makeDeleteRequest(String url, Map<String, String> deleteData ) {
+        return given()
+                .filter(new AllureRestAssured())
+                .body(deleteData)
+                .delete(url)
+                .andReturn();
+
+    }
+    @Step("Make a POST-request for creating user")
+    public Response makePostRequestCreateUserForDelete(String url, Map<String, String> userData) {
+        return given()
+                .filter(new AllureRestAssured())
+                .body(userData)
+                .post(url)
+                .andReturn();
+    }
+    @Step("Make a POST-request for login user")
+    public Response makePostRequestForDelete(String url, Map<String, String> authDeleteData) {
+        return given()
+                .filter(new AllureRestAssured())
+                .body(authDeleteData)
+                .post(url)
+                .andReturn();
+    }
+
+    @Step("Make a DELETE-request to delete user successfully")
+    public Response makeDeleteRequestForSuccessDeleteUser(String url, Map<String, String> deleteData1, String tokenDel1, String cookieDel1) {
+        return given()
+                .filter(new AllureRestAssured())
+                .body(deleteData1)
+                .header(new Header("x-csrf-token", tokenDel1))
+                .cookie("auth_id", cookieDel1)
+                .delete(url)
+                .andReturn();
+
+    }
+    @Step("Make a GET-request for success delete user")
+    public Response makeGetRequestForSuccessDeleteUser(String url, String tokenDel1, String cookieDel1) {
+        return given()
+                .filter(new AllureRestAssured())
+                .header(new Header("x-csrf-token", tokenDel1))
+                .cookie("auth_id", cookieDel1)
+                .get(url)
+                .andReturn();
+
+    }
 }
