@@ -49,6 +49,10 @@ public class UserRegisterTest extends BaseTestCase {
         Assertions.assertJsonHasField(responseCreateAuth, "id");
 
     }
+   /* @ParameterizedTest
+    @ValueSource(strings = {
+            "email":""
+    })*/
 
     @Test
     @Description("This test create user with not valid email")

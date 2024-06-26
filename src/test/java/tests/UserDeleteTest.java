@@ -38,8 +38,12 @@ public class UserDeleteTest extends BaseTestCase {
         deleteData.put("email", "vinkotov@example.com");
         deleteData.put("password", "1234");
         Response responseDeleteUser = apiCoreRequests
-                .makeDeleteRequest("https://playground.learnqa.ru/api/user/2", deleteData);
-        Assertions.assertResponseTextEquals(responseDeleteUser, "{\"error\":\"Auth token not supplied\"}");
+                .makeDeleteRequest("https://playground.learnqa.ru/api/user/2",
+                        deleteData,
+                        this.header,
+                        this.cookie
+                        );
+        Assertions.assertResponseTextEquals(responseDeleteUser, "{\"error\":\"Please, do not delete test users with ID 1, 2, 3, 4 or 5.\"}");
     }
     @Test
     @Description("This test successfully delete user")
@@ -63,8 +67,7 @@ public class UserDeleteTest extends BaseTestCase {
                 .makePostRequestForDelete("https://playground.learnqa.ru/api/user/login", authDeleteData);
         String tokenDel1 = this.getHeader(responseGetAuth, "x-csrf-token");
         String cookieDel1 = this.getCookie(responseGetAuth, "auth_sid");
-        System.out.println(tokenDel1);
-        System.out.println(cookieDel1);
+
         //DELETE
         Map<String, String> deleteData1 = new HashMap<>();
         deleteData1.put("email", userEmail);
@@ -75,22 +78,46 @@ public class UserDeleteTest extends BaseTestCase {
                         deleteData1,
                         tokenDel1,
                         cookieDel1);
-        System.out.println(responseDeleteUser.asString());
 
         //GET
-//если использовать закомментированный код - тест падает почему-то
-        /*Response responseUserData = apiCoreRequests
-                .makeGetRequestInvalidFirstName("https://playground.learnqa.ru/api/user/" + userId,
-                        token1,
-                        cookie1);*/
-        Response responseUserData = RestAssured
-                .given()
-                .header("x-csrf-token", tokenDel1)
-                .cookie("auth_sid", cookieDel1)
-                .get("https://playground.learnqa.ru/api/user/" + userId)
-                .andReturn();
-        System.out.println(responseUserData.asString());
-       // Assertions.asserJsonByName(responseUserData, "email", userEmail);
+        Response responseUserData = apiCoreRequests
+                .makeGetRequestForSuccessDeleteUser("https://playground.learnqa.ru/api/user/" + userId,
+                        tokenDel1,
+                        cookieDel1);
+
+       Assertions.assertResponseTextEquals(responseUserData, "User not found");
+    }
+
+    @Test
+    @Description("This test delete User which is authorized as another user")
+    @DisplayName("Test negative delete another user")
+    public void testEditAnotherUser() {
+
+        //GENERATE USER
+        Map<String, String> userData = DataGenerator.getRegistrationData();
+        Response responseCreateUser = apiCoreRequests
+                .makePostRequestCreateUser("https://playground.learnqa.ru/api/user/", userData);
+
+        String userId = responseCreateUser.jsonPath().get("id");
+
+        //LOGIN AS ANOTHER USER
+        Map<String, String> authData = new HashMap<>();
+        authData.put("email", "vinkotov@example.com");
+        authData.put("password", "1234");
+        Response responseGetAuth = apiCoreRequests
+                .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
+
+        String cookieDelAnother = this.getCookie(responseGetAuth, "auth_sid");
+        String tokenDelAnother = this.getHeader(responseGetAuth, "x-csrf-token");
+
+        //DELETE AS USER
+
+        Response responseDeleteUser = apiCoreRequests
+                .makeDeleteRequestForDeleteAnotherUser("https://playground.learnqa.ru/api/user/" + userId,
+                        tokenDelAnother,
+                        cookieDelAnother);
+        Assertions.assertResponseTextEquals(responseDeleteUser, "{\"error\":\"Please, do not delete test users with ID 1, 2, 3, 4 or 5.\"}");
+
     }
 
     }

@@ -15,7 +15,7 @@ public class ApiCoreRequests {
         return given()
                 .filter(new AllureRestAssured())
                 .header(new Header("x-csrf-token", token))
-                .cookie("auth_id", cookie)
+                .cookie("auth_sid", cookie)
                 .get(url)
                 .andReturn();
 
@@ -25,7 +25,7 @@ public class ApiCoreRequests {
     public Response makeGetRequestwithCookie(String url, String cookie) {
         return given()
                 .filter(new AllureRestAssured())
-                .cookie("auth_id", cookie)
+                .cookie("auth_sid", cookie)
                 .get(url)
                 .andReturn();
 
@@ -65,7 +65,7 @@ public class ApiCoreRequests {
                 .filter(new AllureRestAssured())
                 .body(editData)
                 .header(new Header("x-csrf-token", wrongToken))
-                .cookie("auth_id", wrongCookie)
+                .cookie("auth_sid", wrongCookie)
                 .put(url)
                 .andReturn();
     }
@@ -76,7 +76,7 @@ public class ApiCoreRequests {
                 .filter(new AllureRestAssured())
                 .body(editData)
                 .header(new Header("x-csrf-token", token))
-                .cookie("auth_id", cookie)
+                .cookie("auth_sid", cookie)
                 .put(url)
                 .andReturn();
 
@@ -87,7 +87,7 @@ public class ApiCoreRequests {
                 .filter(new AllureRestAssured())
                 .body(editData)
                 .header(new Header("x-csrf-token", token1))
-                .cookie("auth_id", cookie1)
+                .cookie("auth_sid", cookie1)
                 .put(url)
                 .andReturn();
 
@@ -97,7 +97,7 @@ public class ApiCoreRequests {
         return given()
                 .filter(new AllureRestAssured())
                 .header(new Header("x-csrf-token", token1))
-                .cookie("auth_id", cookie1)
+                .cookie("auth_sid", cookie1)
                 .get(url)
                 .andReturn();
 
@@ -107,15 +107,17 @@ public class ApiCoreRequests {
         return given()
                 .filter(new AllureRestAssured())
                 .header(new Header("x-csrf-token", token2))
-                .cookie("auth_id", cookie2)
+                .cookie("auth_sid", cookie2)
                 .get(url)
                 .andReturn();
 
     }
     @Step("Make a DELETE-request for authorized user")
-    public Response makeDeleteRequest(String url, Map<String, String> deleteData ) {
+    public Response makeDeleteRequest(String url, Map<String, String> deleteData, String token, String cookie ) {
         return given()
                 .filter(new AllureRestAssured())
+                .header(new Header("x-csrf-token", token))
+                .cookie("auth_sid", cookie)
                 .body(deleteData)
                 .delete(url)
                 .andReturn();
@@ -144,7 +146,7 @@ public class ApiCoreRequests {
                 .filter(new AllureRestAssured())
                 .body(deleteData1)
                 .header(new Header("x-csrf-token", tokenDel1))
-                .cookie("auth_id", cookieDel1)
+                .cookie("auth_sid", cookieDel1)
                 .delete(url)
                 .andReturn();
 
@@ -154,8 +156,18 @@ public class ApiCoreRequests {
         return given()
                 .filter(new AllureRestAssured())
                 .header(new Header("x-csrf-token", tokenDel1))
-                .cookie("auth_id", cookieDel1)
+                .cookie("auth_sid", cookieDel1)
                 .get(url)
+                .andReturn();
+
+    }
+    @Step("Make a DELETE-request to delete user successfully")
+    public Response makeDeleteRequestForDeleteAnotherUser(String url, String tokenDelAnother, String cookieDelAnother) {
+        return given()
+                .filter(new AllureRestAssured())
+                .header(new Header("x-csrf-token", tokenDelAnother))
+                .cookie("auth_sid", cookieDelAnother)
+                .delete(url)
                 .andReturn();
 
     }

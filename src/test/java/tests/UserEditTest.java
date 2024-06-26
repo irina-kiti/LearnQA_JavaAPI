@@ -173,17 +173,11 @@ public class UserEditTest extends BaseTestCase {
                         cookie1);
 
         //GET
-//если использовать закомментированный код - тест падает почему-то
-        /*Response responseUserData = apiCoreRequests
+        Response responseUserData = apiCoreRequests
                 .makeGetRequestInvalidFirstName("https://playground.learnqa.ru/api/user/" + userId,
                         token1,
-                        cookie1);*/
-       Response responseUserData = RestAssured
-                .given()
-                .header("x-csrf-token", token1)
-                .cookie("auth_sid", cookie1)
-                .get("https://playground.learnqa.ru/api/user/" + userId)
-                .andReturn();
+                        cookie1);
+
         Assertions.asserJsonByName(responseUserData, "email", userEmail);
     }
 
@@ -220,17 +214,11 @@ public class UserEditTest extends BaseTestCase {
                         cookie2);
 
         //GET
-//если использовать закомментированный код - тест падает почему-то
-        /*Response responseUserData = apiCoreRequests
+        Response responseUserData = apiCoreRequests
                 .makeGetRequestInvalidFirstName("https://playground.learnqa.ru/api/user/" + userId,
                         token2,
-                        cookie2);*/
-       Response responseUserData = RestAssured
-                .given()
-                .header("x-csrf-token", token2)
-                .cookie("auth_sid", cookie2)
-                .get("https://playground.learnqa.ru/api/user/" + userId)
-                .andReturn();
+                        cookie2);
+
         Assertions.asserJsonByName(responseUserData, "firstName", userFirstName);
     }
 
