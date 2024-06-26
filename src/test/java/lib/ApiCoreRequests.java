@@ -51,7 +51,15 @@ public class ApiCoreRequests {
     }
 
     @Step("Make a POST-request for creating user")
-    public Response makePostRequestCreateUser(String url, Map<String, String> userData) {
+    public Response makePostRequestCreateUser(String url, Map<String, String> dataOneField) {
+        return given()
+                .filter(new AllureRestAssured())
+                .body(dataOneField)
+                .post(url)
+                .andReturn();
+    }
+    @Step("Make a POST-request for creating user")
+    public Response makePostRequestCreateUserWithoutField(String url, Map<String, String> userData) {
         return given()
                 .filter(new AllureRestAssured())
                 .body(userData)

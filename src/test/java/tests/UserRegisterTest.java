@@ -49,10 +49,21 @@ public class UserRegisterTest extends BaseTestCase {
         Assertions.assertJsonHasField(responseCreateAuth, "id");
 
     }
-   /* @ParameterizedTest
-    @ValueSource(strings = {
-            "email":""
-    })*/
+    @Test
+    @Description("This test create user without any one field")
+    @DisplayName("Negative create user")
+    public void testCreateUserWithoutAnyField(){
+        Map<String, String> dataOneField = new HashMap<>();
+        dataOneField.put("email", DataGenerator.getRandomEmail());
+        dataOneField.put("password", "123");
+        dataOneField.put("username", "learnqa");
+        dataOneField.put("firstName", "learnqa");
+        Response responseCreateUser = apiCoreRequests
+                .makePostRequestCreateUserWithoutField("https://playground.learnqa.ru/api/user/", dataOneField);
+        System.out.println(responseCreateUser.asString());
+        Assertions.assertResponseTextEquals(responseCreateUser, "The following required params are missed: lastName");
+            }
+
 
     @Test
     @Description("This test create user with not valid email")
