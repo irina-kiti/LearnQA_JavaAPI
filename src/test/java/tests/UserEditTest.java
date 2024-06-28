@@ -1,6 +1,9 @@
 package tests;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.TmsLink;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -67,6 +70,8 @@ public class UserEditTest extends BaseTestCase {
     @Test
     @Description("This test edit User which is not authorized")
     @DisplayName("Test negative edit non authorized user")
+    @TmsLink(value = "DC-T111")
+    @Severity(value = SeverityLevel.CRITICAL)
     public void testEditNonAuthorizedUser() {
         //GENERATE USER
         Map<String, String> userData = DataGenerator.getRegistrationData();
@@ -99,6 +104,8 @@ public class UserEditTest extends BaseTestCase {
     @Test
     @Description("This test edit User which is authorized as another user")
     @DisplayName("Test negative edit another user")
+    @TmsLink(value = "DC-T110")
+    @Severity(value = SeverityLevel.CRITICAL)
     public void testEditAnotherUser() {
 
         //GENERATE USER
@@ -143,6 +150,7 @@ public class UserEditTest extends BaseTestCase {
     @Test
     @Description("This test edit authorized User with invalid email")
     @DisplayName("Test negative edit user")
+    @TmsLink(value = "DC-T108")
     public void testEditUserInvalidEmail() {
 
         //GENERATE USER
@@ -184,6 +192,7 @@ public class UserEditTest extends BaseTestCase {
     @Test
     @Description("This test edit authorized User with invalid firstname")
     @DisplayName("Test negative edit user")
+    @TmsLink(value = "DC-T109")
     public void testEditUserInvalidFirstName() {
 
         //GENERATE USER

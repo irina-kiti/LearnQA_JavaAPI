@@ -1,6 +1,9 @@
 package tests;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.TmsLink;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
@@ -52,6 +55,7 @@ public class UserRegisterTest extends BaseTestCase {
     @Test
     @Description("This test create user without any one field")
     @DisplayName("Negative create user")
+    @TmsLink(value = "DC-T103")
     public void testCreateUserWithoutAnyField(){
         Map<String, String> dataOneField = new HashMap<>();
         dataOneField.put("email", DataGenerator.getRandomEmail());
@@ -68,6 +72,7 @@ public class UserRegisterTest extends BaseTestCase {
     @Test
     @Description("This test create user with not valid email")
     @DisplayName("Negative create user")
+    @TmsLink(value = "DC-T104")
     public void testCreateUserWithNotValidEmail() {
         String email = "vinkotovexample.com";
         Map<String, String> userData = new HashMap<>();
@@ -85,7 +90,8 @@ public class UserRegisterTest extends BaseTestCase {
     @Test
     @Description("This test create user with one symbol name")
     @DisplayName("Negative create user")
-
+    @TmsLink(value = "DC-T105")
+    @Severity(value = SeverityLevel.CRITICAL)
 
     public void testCreateUserWithShortName() {
         Map<String, String> userData = new HashMap<>();
@@ -103,7 +109,8 @@ public class UserRegisterTest extends BaseTestCase {
     @Test
     @Description("This test create user with 251 symbol name")
     @DisplayName("Negative create user")
-
+    @TmsLink(value = "DC-T106")
+    @Severity(value = SeverityLevel.CRITICAL)
 
     public void testCreateUserWhithLongtName() {
         Map<String, String> userData = new HashMap<>();

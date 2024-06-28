@@ -1,6 +1,9 @@
 package tests;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.TmsLink;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
@@ -21,6 +24,8 @@ public class UserDeleteTest extends BaseTestCase {
     @Test
     @Description("This test delete user which is forbidden to delete")
     @DisplayName("Test negative delete forbidden user")
+    @TmsLink(value = "DC-T201")
+    @Severity(value = SeverityLevel.CRITICAL)
     public void DeleteForbiddenUser(){
         //LOGIN USER
         Map<String, String> authData = new HashMap<>();
@@ -48,6 +53,8 @@ public class UserDeleteTest extends BaseTestCase {
     @Test
     @Description("This test successfully delete user")
     @DisplayName("Test positive delete user")
+    @TmsLink(value = "DC-T202")
+    @Severity(value = SeverityLevel.CRITICAL)
     public void DeleteUserSuccessfully(){
         //GENERATE USER
         Map<String, String> userData = DataGenerator.getRegistrationData();
@@ -91,6 +98,7 @@ public class UserDeleteTest extends BaseTestCase {
     @Test
     @Description("This test delete User which is authorized as another user")
     @DisplayName("Test negative delete another user")
+    @TmsLink(value = "DC-T203")
     public void testEditAnotherUser() {
 
         //GENERATE USER

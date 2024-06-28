@@ -1,6 +1,9 @@
 package tests;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.TmsLink;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
@@ -53,6 +56,8 @@ public class UserGetTest extends BaseTestCase {
     @Test
     @Description("This test returns only username for another user")
     @DisplayName("Test positive get only username")
+    @TmsLink(value = "DC-T107")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testGetUserDetailsAuthAsAnotherUser(){
         Map<String, String> authData = new HashMap<>();
         authData.put("email", "vinkotov@example.com");
