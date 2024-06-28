@@ -38,7 +38,7 @@ public class UserAuthTest extends BaseTestCase {
         authData.put("email", "vinkotov@example.com");
         authData.put("password", "1234");
         Response responseGetAuth = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
+                .makePostRequest("https://playground.learnqa.ru/api_dev/user/login", authData);
 
         this.cookie = this.getCookie(responseGetAuth, "auth_sid");
         this.header = this.getHeader(responseGetAuth, "x-csrf-token");
@@ -52,7 +52,7 @@ public class UserAuthTest extends BaseTestCase {
 
         Response responseCheckAuth = apiCoreRequests
                 .makeGetRequest(
-                        "https://playground.learnqa.ru/api/user/auth",
+                        "https://playground.learnqa.ru/api_dev/user/auth",
                         this.header,
                         this.cookie
                 );
@@ -68,17 +68,17 @@ public class UserAuthTest extends BaseTestCase {
     public void testNegativeAuthUser(String condition){
 
         RequestSpecification spec = RestAssured.given();
-        spec.baseUri("https://playground.learnqa.ru/api/user/auth");
+        spec.baseUri("https://playground.learnqa.ru/api_dev/user/auth");
 
         if (condition.equals("cookie")){
             Response responseForCheck = apiCoreRequests.makeGetRequestwithCookie(
-                    "https://playground.learnqa.ru/api/user/auth",
+                    "https://playground.learnqa.ru/api_dev/user/auth",
                     this.cookie
             );
             Assertions.asserJsonByName(responseForCheck, "user_id", 0);
         } else if(condition.equals("headers")){
             Response responseForCheck = apiCoreRequests.makeGetRequestwithToken(
-                    "https://playground.learnqa.ru/api/user/auth",
+                    "https://playground.learnqa.ru/api_dev/user/auth",
                     this.header
             );
             Assertions.asserJsonByName(responseForCheck, "user_id", 0);

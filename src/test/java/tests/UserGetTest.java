@@ -17,7 +17,7 @@ public class UserGetTest extends BaseTestCase {
     @Test
     public void testGetUserDataNotAuth(){
         Response responseUserData = RestAssured
-                .get("https://playground.learnqa.ru/api/user/2")
+                .get("https://playground.learnqa.ru/api_dev/user/2")
                 .andReturn();
         Assertions.assertJsonHasField(responseUserData, "username");
         Assertions.assertJsonHasNotField(responseUserData, "firstName");
@@ -32,7 +32,7 @@ public class UserGetTest extends BaseTestCase {
         Response responseGetAuth = RestAssured
                 .given()
                 .body(authData)
-                .post("https://playground.learnqa.ru/api/user/login")
+                .post("https://playground.learnqa.ru/api_dev/user/login")
                 .andReturn();
         String header = this.getHeader(responseGetAuth, "x-csrf-token");
         String cookie = this.getCookie(responseGetAuth, "auth_sid");
@@ -40,7 +40,7 @@ public class UserGetTest extends BaseTestCase {
                 .given()
                 .header("x-csrf-token", header)
                 .cookie("auth_sid", cookie)
-                .get("https://playground.learnqa.ru/api/user/2")
+                .get("https://playground.learnqa.ru/api_dev/user/2")
                 .andReturn();
         String[] expectedFields = {"username", "firstName", "lastName", "email"};
         Assertions.assertJsonHasFields(responseUserData, expectedFields);
@@ -58,12 +58,12 @@ public class UserGetTest extends BaseTestCase {
         authData.put("email", "vinkotov@example.com");
         authData.put("password", "1234");
         Response responseGetAuth = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
+                .makePostRequest("https://playground.learnqa.ru/api_dev/user/login", authData);
 
         this.cookie = this.getCookie(responseGetAuth, "auth_sid");
         this.header = this.getHeader(responseGetAuth, "x-csrf-token");
         Response responseUserData = apiCoreRequests
-                .makeGetRequest("https://playground.learnqa.ru/api/user/1",
+                .makeGetRequest("https://playground.learnqa.ru/api_dev/user/1",
                         this.header,
                         this.cookie
                 );
